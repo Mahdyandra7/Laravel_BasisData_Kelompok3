@@ -149,6 +149,137 @@
       </nav>
     </div><!-- End Page Title -->
 
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <p></p>
+          <select class="form-select" id="courseSelect" name="courseSelect" aria-label="Default select example" onchange="courseSelect(this.value)">
+            <option selected disabled value>Select Course</option>
+            @foreach($proker as $program)
+              <option value="{{ $program->id }}">{{ $program->nama_proker }}</option>
+            @endforeach
+          </select>
+
+          <script>
+            function courseSelect(value) {
+              // Redirect to the course-list route with the selected value as a query parameter
+              window.location.href = '/course-progress?courseSelect=' + value;
+            }
+          </script>
+          <p></p>
+  
+          <!-- Table with hoverable rows -->
+          <table class="table datatable table-hover">
+            <p>
+              <div class="d-grid gap-2 mt-3">
+                <a type="button" class="btn btn-outline-success rounded-pill btn-sm" href="/addfile"><i class="bi bi-file-earmark-plus"></i> | Add New Submission</a>
+              </div>
+            </p>
+            <thead>
+              <tr>
+                <th scope="col">FileId</th>
+                <th scope="col">File Name</th>
+                <th scope="col">Course Progress (%)</th>
+                <th scope="col">Status</th>
+                <th scope="col">Link File</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            
+            <tbody>
+              @foreach($files as $file)
+                <tr>
+                  <th scope="row">{{ $file->id }}</th>
+                  <td>{{ $file->nama_file }}</td>
+                  <td>
+                    @foreach($proker as $program)
+                        @if($program->id == $file->id_proker)
+                        {{ number_format(number_format( $file->progress_ke / $program->total_progress, 2)* 100) }}%
+                        @endif
+                    @endforeach
+                  </td>
+                  <td>{{ $file->status }}</td>
+                  <td>Link</td>
+                  <td>
+                    <button type="button" class="btn btn-success btn-sm" id="editBtn_{{ $file->id }}" data-bs-toggle="modal" data-bs-target="#largeModal_{{ $file->id }}"><i class="bi bi-pencil"></i> | Edit Submission</button>
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#verticalycentered_{{ $file->id }}"><i class="bi bi-trash"></i></button>
+                    <div class="modal fade" id="verticalycentered_{{ $file->id }}" tabindex="-1">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Delete File "<strong>{{ $file->nama_file }}</strong>"</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <p>Are you sure want to delete this file?</p>
+                            <strong>Note: </strong>You cannot bring back this file once you delete it.
+                          </div>
+                            <form method="POST" action="{{ route('file.destroy', ['id' => $file->id]) }}">
+                              @csrf
+                              @method('DELETE')
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                              </div>
+                            </form>
+                        </div>
+                      </div>
+                    </div><!-- End Vertically centered Modal-->  
+
+                    <div class="modal fade" id="largeModal_{{ $file->id }}" tabindex="-1">
+                      <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Edit Submission "<strong>{{ $file->nama_file }}</strong>"</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <form action="{{ route('file.update', ['id' => $file->id]) }}" enctype="multipart/form-data" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <div class="modal-body">
+                                <label for="documentTitle" class="col-sm-3 col-form-label">File Name</label>
+                                <div class="col-sm-12">
+                                  <div class="input-group mb-3 has-validation">
+                                    <input type="text" name="title" class="form-control" id="documentTitle"  placeholder="File Name" required>
+                                    <div class="invalid-feedback">Please enter a title for the document.</div>
+                                  </div>
+                                </div>
+
+                                <label for="fileInput" class="col-sm-3 col-form-label">File Input</label>
+                                <div class="col-sm-12">
+                                  <div class="input-group mb-3 has-validation">
+                                    <input type="file" name="file" class="form-control" id="fileInput" required>
+                                    <div class="invalid-feedback">Please select a file to upload.</div>
+                                  </div>
+                                </div>
+
+                                <label for="documentDesc" class="col-sm-3 col-form-label">File Description</label>
+                                <div class="col-sm-12">
+                                  <div class="input-group mb-3 has-validation">
+                                    <textarea name="desc" class="form-control" style="height: 100px;" id="documentDesc"  placeholder="File Description" required></textarea>
+                                    <div class="invalid-feedback">Please enter a description about the document.</div>
+                                  </div>
+                                </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div><!-- End Large Modal-->
+                  </td>
+                </tr>
+              @endforeach
+            </tbody>
+          </table>
+          <!-- End Table with hoverable rows -->
+
+        </div>
+      </div>
+    </div>
+
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->

@@ -149,6 +149,183 @@
       </nav>
     </div><!-- End Page Title -->
 
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <p></p>
+          <select class="form-select" id="departmentSelect" name="departmentSelect" aria-label="Default select example" onchange="selectDepartment(this.value)">
+            <option selected disabled value>Select Departement</option>
+            @foreach($dept as $dep)
+              <option value="{{ $dep->id }}">{{ $dep->nama_kementrian }}</option>
+            @endforeach
+          </select>
+
+          <script>
+            function selectDepartment(value) {
+              // Redirect to the course-list route with the selected value as a query parameter
+              window.location.href = '/course-list?departmentSelect=' + value;
+            }
+          </script>
+          <p></p>
+  
+          <!-- Table with hoverable rows -->
+          <table class="table datatable table-hover">
+            <p>
+              <div class="d-grid gap-2 mt-3">
+                <a type="button" class="btn btn-outline-success rounded-pill btn-sm" href="/addcourse"><i class="bi bi-journal-plus"></i> | Add New Course</a>
+              </div>
+            </p>
+            <thead>
+              <tr>
+                <th scope="col">CourseId</th>
+                <th scope="col">Course Name</th>
+                <th scope="col">Person in Contact</th>
+                <th scope="col">Progress (%)</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            
+            <tbody>
+              @foreach($proker as $program)
+                <tr>
+                  <th scope="row">{{ $program->id }}</th>
+                  <td>{{ $program->nama_proker }}</td>
+                  <td>
+                    @foreach($users as $user)
+                        @if($user->id == $program->pic)
+                            {{ $user->nama }}
+                        @endif
+                    @endforeach
+                  </td>
+                  <td>
+                    {{ number_format(number_format($maxProgress[$program->id] / $program->total_progress, 2)* 100) }}%
+                  </td>  
+                  <td>
+                    <button type="button" class="btn btn-success btn-sm" id="editBtn_{{ $program->id }}" data-bs-toggle="modal" data-bs-target="#largeModal_{{ $program->id }}"><i class="bi bi-pencil"></i> | Edit Course</button>
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#verticalycentered_{{ $program->id }}"><i class="bi bi-trash"></i></button>
+                    <div class="modal fade" id="verticalycentered_{{ $program->id }}" tabindex="-1">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Delete Course "<strong>{{ $program->nama_proker }}</strong>"</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <p>Are you sure want to delete this course?</p>
+                            <strong>Note: </strong>You cannot bring back this course once you delete it.
+                          </div>
+                            <form method="POST" action="{{ route('course.destroy', ['id' => $program->id]) }}">
+                              @csrf
+                              @method('DELETE')
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                              </div>
+                            </form>
+                        </div>
+                      </div>
+                    </div><!-- End Vertically centered Modal-->  
+                    <div class="modal fade" id="largeModal_{{ $program->id }}" tabindex="-1">
+                      <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Edit Course "<strong>{{ $program->nama_proker }}</strong>"</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <form action="{{ route('course.update', ['id' => $program->id]) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <div class="modal-body">
+                                <label for="inputText" class="col-sm-3 col-form-label"> Course Name</label>
+                                <div class="col-sm-12">
+                                  <div class="input-group mb-3 has-validation">
+                                    <input type="text" name="proker_name" class="form-control" placeholder="Course Name" aria-label="Course Name" aria-describedby="basic-addon1" value="{{ $program->nama_proker }}" required>
+                                    <div class="invalid-feedback">Please enter new course name for the course.</div>
+                                  </div>
+                                </div>
+
+                                <label for="inputText" class="col-sm-3 col-form-label"> Description</label>
+                                <div class="col-sm-12">
+                                  <div class="input-group mb-3 has-validation">
+                                    <textarea name="proker_desc" class="form-control" style="height: 125px;" id="proker_desc" placeholder="Course Description" value="{{ $program->deksripsi }}" required></textarea>
+                                    <div class="invalid-feedback">Please enter description of the course.</div>
+                                  </div>
+                                </div>
+
+                                <label class="col-sm-3 col-form-label">Person in Contact</label>
+                                <div class="col-sm-12">
+                                  <select class="form-select input-group mb-3 has-validation" name="proker_pic" aria-label="Default select example" required>
+                                    <option selected disabled value>Select Staff</option>
+                                    @foreach($userproker as $user)
+                                        <option value="{{ $user->id }}">{{ $user->nama }}</option>
+                                    @endforeach
+                                    <div class="invalid-feedback">Please enter a staff to be person in contact for the course.</div>
+                                  </select>
+                                </div>
+
+                                <label class="col-sm-3 col-form-label"> Department</label>
+                                <div class="col-sm-12">
+                                  <select class="form-select input-group mb-3 has-validation" name="proker_dept" aria-label="Default select example" required>
+                                    @foreach($dept as $dep)
+                                      @if($dep->id == $program->id_kementrian)
+                                        <option selected value="{{ $dep->id }}">{{ $dep->nama_kementrian }}</option>
+                                      @endif
+                                    @endforeach
+                                    <div class="invalid-feedback">Please enter a departement for the course.</div>
+                                  </select>
+                                </div>
+
+                                <label for="inputText" class="col-sm-3 col-form-label"> Period</label>
+                                <div class="col-sm-12">
+                                  <div class="input-group mb-3 has-validation">
+                                    <input type="number" name="proker_period" class="form-control" placeholder="Course Period" aria-label="Course Period" aria-describedby="basic-addon1" value="{{ $program->periode }}" required>
+                                    <div class="invalid-feedback">Please enter period for the course.</div>
+                                  </div>
+                                </div>
+
+                                <label for="inputText" class="col-sm-3 col-form-label"> Progress Needed</label>
+                                <div class="col-sm-12">
+                                  <div class="input-group mb-3 has-validation">
+                                    <input type="number" name="proker_progress" class="form-control" placeholder="Progress Needed" aria-label="Progress Needed" aria-describedby="basic-addon1" value="{{ $program->total_progress }}" required>
+                                    <div class="invalid-feedback">Please enter period for the course.</div>
+                                  </div>
+                                </div>
+
+                                <label for="inputText" class="col-sm-3 col-form-label"> Start Date</label>
+                                <div class="col-sm-12">
+                                  <div class="input-group mb-3 has-validation">
+                                    <input type="date" name="proker_start" class="form-control" placeholder="Start Date" aria-label="Start Date" aria-describedby="basic-addon1" value="{{ $program->tanggal_mulai }}" required>
+                                    <div class="invalid-feedback">Please enter start date for the course.</div>
+                                  </div>
+                                </div>
+
+                                <label for="inputText" class="col-sm-3 col-form-label"> End Date</label>
+                                <div class="col-sm-12">
+                                  <div class="input-group mb-3 has-validation">
+                                    <input type="date" name="proker_end" class="form-control" placeholder="End Date" aria-label="End Date" aria-describedby="basic-addon1" value="{{ $program->tanggal_selesai }}" required>
+                                    <div class="invalid-feedback">Please enter end date for the course.</div>
+                                  </div>
+                                </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div><!-- End Large Modal-->
+                  </td>
+                </tr>
+              @endforeach
+            </tbody>
+          </table>
+          <!-- End Table with hoverable rows -->
+
+        </div>
+      </div>
+    </div>
+
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->

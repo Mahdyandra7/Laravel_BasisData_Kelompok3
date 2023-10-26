@@ -13,6 +13,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\AddUsersController;
 use App\Http\Controllers\AddDepartementController;
 use App\Http\Controllers\AddRolesController;
+use App\Http\Controllers\AddProkerController;
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
 
@@ -47,3 +48,11 @@ Route::get('/addroles', [AddRolesController::class, 'addroles'])->name('addroles
 Route::post('/addroles', [AddRolesController::class, 'store'])->name('store-roles')->middleware('auth');
 Route::delete('/roles/{id}', [RolesController::class, 'destroy'])->name('role.destroy')->middleware('auth');
 Route::put('/roles/update/{id}', [RolesController::class, 'update'])->name('roles.update')->middleware('auth');
+
+Route::delete('/course-list/{id}', [CourseController::class, 'destroy'])->name('course.destroy')->middleware('auth');
+Route::put('/course/update/{id}', [CourseController::class, 'update'])->name('course.update')->middleware('auth');
+Route::get('/addcourse', [AddProkerController::class, 'addproker'])->name('addproker')->middleware('auth');
+Route::post('/addcourse', [AddProkerController::class, 'store'])->name('store-course')->middleware('auth');
+
+Route::delete('/course-progress/{id}', [FileProkerController::class, 'destroy'])->name('file.destroy')->middleware('auth');
+Route::put('/course-progress/update/{id}', [FileProkerController::class, 'update'])->name('file.update')->middleware('auth');

@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Course List</title>
+  <title>Add New Course</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -57,14 +57,14 @@
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="assets/img/messages-2.jpg" alt="Profile" class="rounded-circle">
+            <img src="assets/img/messages-3.jpg" alt="Profile" class="rounded-circle">
             <span class="d-none d-md-block dropdown-toggle ps-2"></span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>User Staff</h6>
-              <span>Staff of Departement A</span>
+              <h6>User Head</h6>
+              <span>Head of Departement A</span>
             </li>
             <li>
               <hr class="dropdown-divider">
@@ -144,65 +144,109 @@
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/">Home</a></li>
           <li class="breadcrumb-item">Course Work</li>
-          <li class="breadcrumb-item active">Course List</li>
+          <li class="breadcrumb-item"><a href="/course-list"> Course List</a></li>
+          <li class="breadcrumb-item active">Add New Course</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
 
-    <div class="col-lg-12">
-      <div class="card">
-        <div class="card-body">
-          <p></p>
-          <select class="form-select" id="departmentSelect" name="departmentSelect" aria-label="Default select example" onchange="selectDepartment(this.value)">
-            <option selected disabled value>Select Departement</option>
-            @foreach($dept as $dep)
-              <option value="{{ $dep->id }}">{{ $dep->nama_kementrian }}</option>
-            @endforeach
-          </select>
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
 
-          <script>
-            function selectDepartment(value) {
-              // Redirect to the course-list route with the selected value as a query parameter
-              window.location.href = '/course-list?departmentSelect=' + value;
-            }
-          </script>
-          <p></p>
-  
-          <!-- Table with hoverable rows -->
-          <table class="table datatable table-hover">
-            <thead>
-              <tr>
-                <th scope="col">CourseId</th>
-                <th scope="col">Course Name</th>
-                <th scope="col">Person in Contact</th>
-                <th scope="col">Progress (%)</th>
-              </tr>
-            </thead>
-            
-            <tbody>
-              @foreach($proker as $program)
-                <tr>
-                  <th scope="row">{{ $program->id }}</th>
-                  <td>{{ $program->nama_proker }}</td>
-                  <td>
-                    @foreach($users as $user)
-                        @if($user->id == $program->pic)
-                            {{ $user->nama }}
-                        @endif
-                    @endforeach
-                  </td>
-                  <td>
-                    {{ number_format(number_format($maxProgress[$program->id] / $program->total_progress, 2)* 100) }}%
-                  </td>  
-                </tr>
-              @endforeach
-            </tbody>
-          </table>
-          <!-- End Table with hoverable rows -->
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Add New Course Form</h5>
+
+              <!-- General Form Elements -->
+              <form action="{{ route('store-course') }}" method="POST">
+                @csrf
+                <div class="row mb-3">
+                  <label for="inputText" class="col-sm-2 col-form-label"> Course Name</label>
+                  <div class="col-sm-10">
+                    <div class="input-group mb-3 has-validation">
+                      <input type="text" name="proker_name" class="form-control" placeholder="Course Name" aria-label="Course Name" aria-describedby="basic-addon1" required>
+                      <div class="invalid-feedback">Please enter new course name for the course.</div>
+                    </div>
+                  </div>
+
+                  <label for="inputText" class="col-sm-2 col-form-label"> Description</label>
+                  <div class="col-sm-10">
+                    <div class="input-group mb-3 has-validation">
+                      <textarea name="proker_desc" class="form-control" style="height: 125px;" id="proker_desc" placeholder="Course Description"></textarea>
+                      <div class="invalid-feedback">Please enter description of the course.</div>
+                    </div>
+                  </div>
+
+                  <label class="col-sm-2 col-form-label">Person in Contact</label>
+                  <div class="col-sm-10">
+                    <select class="form-select input-group mb-3 has-validation" name="proker_pic" aria-label="Default select example" required>
+                      <option selected disabled value>Select Staff</option>
+                      @foreach($users as $user)
+                          <option value="{{ $user->id }}">{{ $user->nama }}</option>
+                      @endforeach
+                      <div class="invalid-feedback">Please enter a staff to be person in contact for the course.</div>
+                    </select>
+                  </div>
+
+                  <label class="col-sm-2 col-form-label"> Department</label>
+                  <div class="col-sm-10">
+                    <select class="form-select input-group mb-3 has-validation" name="proker_dept" aria-label="Default select example" required>
+                      <option selected disabled value>Select Departement</option>
+                      @foreach($dept as $dep)
+                        <option value="{{ $dep->id }}">{{ $dep->nama_kementrian }}</option>
+                      @endforeach
+                      <div class="invalid-feedback">Please enter a departement for the course.</div>
+                    </select>
+                  </div>
+
+                  <label for="inputText" class="col-sm-2 col-form-label"> Period</label>
+                  <div class="col-sm-10">
+                    <div class="input-group mb-3 has-validation">
+                      <input type="number" name="proker_period" class="form-control" placeholder="Course Period" aria-label="Course Period" aria-describedby="basic-addon1" required>
+                      <div class="invalid-feedback">Please enter period for the course.</div>
+                    </div>
+                  </div>
+
+                  <label for="inputText" class="col-sm-2 col-form-label"> Progress Needed</label>
+                  <div class="col-sm-10">
+                    <div class="input-group mb-3 has-validation">
+                      <input type="number" name="proker_progress" class="form-control" placeholder="Progress Needed" aria-label="Progress Needed" aria-describedby="basic-addon1" required>
+                      <div class="invalid-feedback">Please enter progress needed for the course.</div>
+                    </div>
+                  </div>
+
+                  <label for="inputText" class="col-sm-2 col-form-label"> Course Start Date</label>
+                  <div class="col-sm-10">
+                    <div class="input-group mb-3 has-validation">
+                      <input type="date" name="proker_start" class="form-control" placeholder="Start Date" aria-label="Start Date" aria-describedby="basic-addon1" required>
+                      <div class="invalid-feedback">Please enter start date for the course.</div>
+                    </div>
+                  </div>
+
+                  <label for="inputText" class="col-sm-2 col-form-label"> Course End Date</label>
+                  <div class="col-sm-10">
+                    <div class="input-group mb-3 has-validation">
+                      <input type="date" name="proker_end" class="form-control" placeholder="End Date" aria-label="End Date" aria-describedby="basic-addon1" required>
+                      <div class="invalid-feedback">Please enter end date for the course.</div>
+                    </div>
+                  </div>
+
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-success">Add Course</button>
+                    <button type="reset" class="btn btn-secondary">Reset Form</button>
+                  </div>
+
+                </div>
+
+              </form><!-- End General Form Elements -->
+
+            </div>
+          </div>
 
         </div>
       </div>
-    </div>
+    </section>
 
   </main><!-- End #main -->
 

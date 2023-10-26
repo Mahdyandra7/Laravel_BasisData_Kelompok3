@@ -149,6 +149,111 @@
       </nav>
     </div><!-- End Page Title -->
 
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <p></p>
+          <select class="form-select" id="courseSelect" name="courseSelect" aria-label="Default select example" onchange="courseSelect(this.value)">
+            <option selected disabled value>Select Course</option>
+            @foreach($proker as $program)
+              <option value="{{ $program->id }}">{{ $program->nama_proker }}</option>
+            @endforeach
+          </select>
+
+          <script>
+            function courseSelect(value) {
+              // Redirect to the course-list route with the selected value as a query parameter
+              window.location.href = '/course-progress?courseSelect=' + value;
+            }
+          </script>
+          <p></p>
+  
+          <!-- Table with hoverable rows -->
+          <table class="table datatable table-hover">
+            <thead>
+              <tr>
+                <th scope="col">FileId</th>
+                <th scope="col">File Name</th>
+                <th scope="col">Course Progress (%)</th>
+                <th scope="col">Status</th>
+                <th scope="col">Link File</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            
+            <tbody>
+              @foreach($files as $file)
+                <tr>
+                  <th scope="row">{{ $file->id }}</th>
+                  <td>{{ $file->nama_file }}</td>
+                  <td>
+                    @foreach($proker as $program)
+                        @if($program->id == $file->id_proker)
+                        {{ number_format(number_format( $file->progress_ke / $program->total_progress, 2)* 100) }}%
+                        @endif
+                    @endforeach
+                  </td>
+                  <td>{{ $file->status }}</td>
+                  <td>Link</td>
+                  <td>
+                    <button type="button" class="btn btn-success btn-sm" id="editBtn_{{ $file->id }}" data-bs-toggle="modal" data-bs-target="#largeModal_{{ $file->id }}"><i class="bi bi-file-earmark-check"></i> | Verify Submission</button>
+                    <button type="button" class="btn btn-warning btn-sm" id="editBtn_{{ $file->id }}" data-bs-toggle="modal" ><i class="bi bi-file-earmark-medical"></i></button>
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#verticalycentered_{{ $file->id }}"><i class="bi bi-trash"></i></button>
+                    <div class="modal fade" id="verticalycentered_{{ $file->id }}" tabindex="-1">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Delete File "<strong>{{ $file->nama_file }}</strong>"</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <p>Are you sure want to delete this file?</p>
+                            <strong>Note: </strong>You cannot bring back this file once you delete it.
+                          </div>
+                            <form method="POST" action="{{ route('file.destroy', ['id' => $file->id]) }}">
+                              @csrf
+                              @method('DELETE')
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                              </div>
+                            </form>
+                        </div>
+                      </div>
+                    </div><!-- End Vertically centered Modal-->  
+
+                    <div class="modal fade" id="largeModal_{{ $file->id }}" tabindex="-1">
+                      <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Verify Submission "<strong>{{ $file->nama_file }}</strong>"</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <form action="{{ route('file.update', ['id' => $file->id]) }}" enctype="multipart/form-data" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <div class="modal-body">
+                                
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-success">Verify</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div><!-- End Large Modal-->
+                  </td>
+                </tr>
+              @endforeach
+            </tbody>
+          </table>
+          <!-- End Table with hoverable rows -->
+
+        </div>
+      </div>
+    </div>
+
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->

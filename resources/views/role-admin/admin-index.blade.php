@@ -153,7 +153,7 @@
               <h5 class="card-title">User Table</h5>
 
               <!-- Table with stripped rows -->
-              <table class="table table-hover datatable">
+              <table class="table table-hover table-striped datatable">
                   <thead>
                       <tr>
                           <th scope="col">UserId</th>
@@ -196,7 +196,7 @@
                 <h5 class="card-title">Departement Table</h5>
 
                 <!-- Table with stripped rows -->
-                <table class="table table-hover datatable">
+                <table class="table table-hover table-striped datatable">
                     <thead>
                         <tr>
                             <th scope="col">DeptId</th>
@@ -228,7 +228,7 @@
                 <h5 class="card-title">Roles Table</h5>
 
                 <!-- Table with stripped rows -->
-                <table class="table table-hover datatable">
+                <table class="table table-hover table-striped datatable">
                     <thead>
                        <tr>
                             <th scope="col">RoleId</th>
