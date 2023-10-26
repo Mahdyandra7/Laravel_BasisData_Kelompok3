@@ -174,7 +174,8 @@
               <tr>
                 <th scope="col">FileId</th>
                 <th scope="col">File Name</th>
-                <th scope="col">Course Progress (%)</th>
+                <th scope="col">Course Progress</th>
+                <th scope="col">Progress (%)</th>
                 <th scope="col">Status</th>
                 <th scope="col">Link File</th>
                 <th scope="col">Action</th>
@@ -189,39 +190,25 @@
                   <td>
                     @foreach($proker as $program)
                         @if($program->id == $file->id_proker)
+                          {{ $file->progress_ke }} / {{ $program->total_progress }}
+                        @endif
+                    @endforeach
+                  </td>
+                  <td>
+                    @foreach($proker as $program)
+                        @if($program->id == $file->id_proker)
                         {{ number_format(number_format( $file->progress_ke / $program->total_progress, 2)* 100) }}%
                         @endif
                     @endforeach
                   </td>
                   <td>{{ $file->status }}</td>
-                  <td>Link</td>
+                  <td>
+                  <a type="button" class="btn btn-link btn-sm" href="file:///D:/Kuliah/Semester%205/Basis%20Data/Project/Laravel_Basdat_Kelompok3/storage/app/{{ $file->url_file }}">Link</a>
+                  </td>
                   <td>
                     <button type="button" class="btn btn-success btn-sm" id="editBtn_{{ $file->id }}" data-bs-toggle="modal" data-bs-target="#largeModal_{{ $file->id }}"><i class="bi bi-file-earmark-check"></i> | Verify Submission</button>
-                    <button type="button" class="btn btn-warning btn-sm" id="editBtn_{{ $file->id }}" data-bs-toggle="modal" ><i class="bi bi-file-earmark-medical"></i></button>
+                    <button type="button" class="btn btn-warning btn-sm" id="editBtn2_{{ $file->id }}" data-bs-toggle="modal" data-bs-target="#largeModal2_{{ $file->id }}"><i class="bi bi-file-earmark-medical"></i></button>
                     <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#verticalycentered_{{ $file->id }}"><i class="bi bi-trash"></i></button>
-                    <div class="modal fade" id="verticalycentered_{{ $file->id }}" tabindex="-1">
-                      <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title">Delete File "<strong>{{ $file->nama_file }}</strong>"</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                          </div>
-                          <div class="modal-body">
-                            <p>Are you sure want to delete this file?</p>
-                            <strong>Note: </strong>You cannot bring back this file once you delete it.
-                          </div>
-                            <form method="POST" action="{{ route('file.destroy', ['id' => $file->id]) }}">
-                              @csrf
-                              @method('DELETE')
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                              </div>
-                            </form>
-                        </div>
-                      </div>
-                    </div><!-- End Vertically centered Modal-->  
-
                     <div class="modal fade" id="largeModal_{{ $file->id }}" tabindex="-1">
                       <div class="modal-dialog modal-lg">
                         <div class="modal-content">
@@ -229,10 +216,25 @@
                             <h5 class="modal-title">Verify Submission "<strong>{{ $file->nama_file }}</strong>"</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
-                          <form action="{{ route('file.update', ['id' => $file->id]) }}" enctype="multipart/form-data" method="POST">
+                          <form action="{{ route('file.verif', ['id' => $file->id]) }}" enctype="multipart/form-data" method="POST">
                             @csrf
                             @method('PUT')
                             <div class="modal-body">
+                              <label for="documentTitle" class="col-sm-3 col-form-label">Course Progress</label>
+                                <div class="col-sm-12">
+                                  <div class="input-group mb-3 has-validation">
+                                    <input type="number" name="progress" class="form-control" id="documentTitle"  placeholder="Progress Number" required>
+                                    <div class="invalid-feedback">Please enter course progress of the file.</div>
+                                  </div>
+                                </div>
+
+                              <label for="documentDesc" class="col-sm-3 col-form-label">Messages to PIC</label>
+                              <div class="col-sm-12">
+                                <div class="input-group mb-3 has-validation">
+                                  <textarea name="msg" class="form-control" style="height: 100px;" id="documentDesc"  placeholder="Messages" required></textarea>
+                                  <div class="invalid-feedback">Please enter a messages to PIC of the course.</div>
+                                </div>
+                              </div>
                                 
 
                             <div class="modal-footer">
@@ -245,6 +247,57 @@
                     </div><!-- End Large Modal-->
                   </td>
                 </tr>
+                <div>
+                  <div class="modal fade" id="verticalycentered_{{ $file->id }}" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Delete File "<strong>{{ $file->nama_file }}</strong>"</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <p>Are you sure want to delete this file?</p>
+                          <strong>Note: </strong>You cannot bring back this file once you delete it.
+                        </div>
+                          <form method="POST" action="{{ route('file.destroy', ['id' => $file->id]) }}">
+                            @csrf
+                            @method('DELETE')
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
+                              <button type="submit" class="btn btn-danger">Delete</button>
+                            </div>
+                          </form>
+                      </div>
+                    </div>
+                  </div><!-- End Vertically centered Modal--> 
+
+                  <div class="modal fade" id="largeModal2_{{ $file->id }}" tabindex="-1">
+                    <div class="modal-dialog modal-lg">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Verify Submission "<strong>{{ $file->nama_file }}</strong>"</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="{{ route('file.revision', ['id' => $file->id]) }}" enctype="multipart/form-data" method="POST">
+                          @csrf
+                          @method('PUT')
+                          <div class="modal-body">
+                            <label for="documentDesc" class="col-sm-3 col-form-label">Revision Messages to PIC</label>
+                            <div class="col-sm-12">
+                              <div class="input-group mb-3 has-validation">
+                                <textarea name="msg" class="form-control" style="height: 100px;" id="documentDesc"  placeholder="Messages" required></textarea>
+                                <div class="invalid-feedback">Please enter a messages to PIC of the course.</div>
+                              </div>
+                            </div>
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                              <button type="submit" class="btn btn-warning">Submit Messages</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div><!-- End Large Modal-->
+                </div>
               @endforeach
             </tbody>
           </table>

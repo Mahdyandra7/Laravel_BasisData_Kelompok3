@@ -181,6 +181,7 @@
                 <th scope="col">File Name</th>
                 <th scope="col">Course Progress (%)</th>
                 <th scope="col">Status</th>
+                <th scope="col">Messages</th>
                 <th scope="col">Link File</th>
                 <th scope="col">Action</th>
               </tr>
@@ -199,7 +200,10 @@
                     @endforeach
                   </td>
                   <td>{{ $file->status }}</td>
-                  <td>Link</td>
+                  <td>{{ $file->messages }}</td>
+                  <td>
+                    <a type="button" class="btn btn-link btn-sm" href="file:///D:/Kuliah/Semester%205/Basis%20Data/Project/Laravel_Basdat_Kelompok3/storage/app/{{ $file->url_file }}">Link</a>
+                  </td>
                   <td>
                     <button type="button" class="btn btn-success btn-sm" id="editBtn_{{ $file->id }}" data-bs-toggle="modal" data-bs-target="#largeModal_{{ $file->id }}"><i class="bi bi-pencil"></i> | Edit Submission</button>
                     <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#verticalycentered_{{ $file->id }}"><i class="bi bi-trash"></i></button>

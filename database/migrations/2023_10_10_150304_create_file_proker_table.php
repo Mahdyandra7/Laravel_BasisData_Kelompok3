@@ -15,6 +15,7 @@ class CreateFileProkerTable extends Migration
             $table->integer('progress_ke');
             $table->string('url_file', 100);
             $table->string('status', 50);
+            $table->string('messages', 500)->nullable();
             $table->unsignedBigInteger('id_proker');
 
             // Menambahkan kunci asing ke kolom 'id_proker' yang mengacu ke tabel 'program_kerja'

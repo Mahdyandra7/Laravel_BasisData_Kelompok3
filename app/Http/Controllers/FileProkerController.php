@@ -85,6 +85,45 @@ class FileProkerController extends Controller
 
             $file->progress_ke = 0;
             $file->status = 'Pending';
+            $file->messages = '';
+
+            $file->save();
+
+            return redirect()->route('course-progress')->with('success', 'User updated successfully');
+        }
+
+        return redirect()->route('course-progress')->with('error', 'User not found');
+    }
+
+    public function verif(Request $request, $id)
+    {
+        // Find the user to update
+        $file = FileProker::find($id);
+
+        if ($file) {
+            // Apply changes
+            $file->messages = $request->input('msg');
+            $file->progress_ke = $request->input('progress');
+            $file->status = 'Verified';
+
+            $file->save();
+
+            return redirect()->route('course-progress')->with('success', 'User updated successfully');
+        }
+
+        return redirect()->route('course-progress')->with('error', 'User not found');
+    }
+
+    public function revision(Request $request, $id)
+    {
+        // Find the user to update
+        $file = FileProker::find($id);
+
+        if ($file) {
+            // Apply changes
+            $file->messages = $request->input('msg');
+            $file->status = 'Revision';
+            $file->progress_ke = 0;
 
             $file->save();
 
