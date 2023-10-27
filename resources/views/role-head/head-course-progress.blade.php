@@ -174,7 +174,7 @@
               <tr>
                 <th scope="col">FileId</th>
                 <th scope="col">File Name</th>
-                <th scope="col">Course Progress</th>
+                <th scope="col">Submission Progress</th>
                 <th scope="col">Progress (%)</th>
                 <th scope="col">Status</th>
                 <th scope="col">Link File</th>
@@ -220,10 +220,10 @@
                             @csrf
                             @method('PUT')
                             <div class="modal-body">
-                              <label for="documentTitle" class="col-sm-3 col-form-label">Course Progress</label>
+                              <label for="documentTitle" class="col-sm-3 col-form-label">Submission</label>
                                 <div class="col-sm-12">
                                   <div class="input-group mb-3 has-validation">
-                                    <input type="number" name="progress" class="form-control" id="documentTitle"  placeholder="Progress Number" required>
+                                    <input type="number" name="progress" class="form-control" id="documentTitle"  placeholder="Number of Submission" required>
                                     <div class="invalid-feedback">Please enter course progress of the file.</div>
                                   </div>
                                 </div>
