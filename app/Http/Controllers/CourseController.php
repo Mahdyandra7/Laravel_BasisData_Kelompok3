@@ -41,7 +41,7 @@ class CourseController extends Controller
         
         if ($user->id_role == 1) {
             return view('error-404');
-        } elseif ($user->id_role == 2) {
+        } elseif (in_array($user->id_role, [2, 3, 4, 5])) {
             return view('role-head/head-course-list', compact('dept','users','proker','maxProgress','userproker'));
         } else {
             return view('role-staff/staff-course-list', compact('dept','users','proker','maxProgress'));
@@ -65,7 +65,7 @@ class CourseController extends Controller
         
         if ($user->id_role == 1) {
             return view('error-404');
-        } elseif ($user->id_role == 2) {
+        } elseif (in_array($user->id_role, [2, 3, 4, 5])) {
             return view('role-head/head-course-progress', compact('proker','files'));
         } else {
             return view('role-staff/staff-course-progress', compact('proker','files'));

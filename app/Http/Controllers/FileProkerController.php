@@ -19,7 +19,7 @@ class FileProkerController extends Controller
         if ($user->id_role == 1) {
             return view('error-404');}
 
-        elseif ($user->id_role == 2) {
+        elseif (in_array($user->id_role, [2, 3, 4, 5])) {
             return view('error-404');
         
         } else {

@@ -39,7 +39,7 @@ class DashboardController extends Controller
         
         if ($user->id_role == 1) {
             return view('role-admin.admin-index', compact('users','dept','roles'));
-        } elseif ($user->id_role == 2) {
+        } elseif (in_array($user->id_role, [2, 3, 4, 5])) {
             return view('role-head/head-index', compact('users','dept','roles','proker','maxProgress'));
         } else {
             return view('role-staff/staff-index', compact('users','dept','roles','proker','maxProgress'));

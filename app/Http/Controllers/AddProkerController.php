@@ -18,7 +18,7 @@ class AddProkerController extends Controller
         $users = UserData::all();
         $dept = Kementrian::all();
         
-        if ($user->id_role == 2) {
+        if (in_array($user->id_role, [2, 3, 4, 5])) {
             return view('role-head/head-addcourse', compact('dept','users'));
         
         } else {

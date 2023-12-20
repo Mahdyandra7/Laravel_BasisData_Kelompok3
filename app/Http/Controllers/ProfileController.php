@@ -13,7 +13,7 @@ class ProfileController extends Controller
         
         if ($user->id_role == 1) {
             return view('role-admin/admin-profile');
-        } elseif ($user->id_role == 2) {
+        } elseif (in_array($user->id_role, [2, 3, 4, 5])) {
             return view('role-head/head-profile');
         } else {
             return view('role-staff/staff-profile');

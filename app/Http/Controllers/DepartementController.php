@@ -14,7 +14,7 @@ class DepartementController extends Controller
         $user = Auth::user();
         $dept = Kementrian::all();
         
-        if ($user->id_role == 1) {
+        if (in_array($user->id_role, [2, 3, 4, 5])) {
             return view('role-admin/admin-departement', compact('dept'));
         } else {
             return view('error-404');
