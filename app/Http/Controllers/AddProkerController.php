@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\ProgramKerja;
 use App\Models\Kementrian;
 use App\Models\UserData;
+use App\Models\Role;
 use App\Models\FileProker;
 
 class AddProkerController extends Controller
@@ -15,8 +16,21 @@ class AddProkerController extends Controller
     public function addproker()
     {
         $user = Auth::user();
-        $users = UserData::all();
-        $dept = Kementrian::all();
+        $roleUser = Role::where('id', $user->id_role)->first();
+        $userDept = $roleUser->id_kementrian;  
+        
+        if ($userDept) {
+            $dept = Kementrian::where('id', $userDept)->get();
+            $depts = Kementrian::where('id', $userDept)->first();
+            $deptId = $depts->id;
+            $roles = Role::where('id_kementrian', $deptId)->get();
+            $roleIds = $roles->pluck('id')->toArray();
+            $users = UserData::whereIn('id_role', $roleIds)->get();
+
+        } else {
+            $dept = collect(); 
+            $users = collect(); 
+        }
         
         if (in_array($user->id_role, [2, 3, 4, 5])) {
             return view('role-head/head-addcourse', compact('dept','users'));

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\FileProker;
 use Illuminate\Support\Facades\Auth;
 use App\Models\ProgramKerja;
+use App\Models\Role;
 
 
 class FileProkerController extends Controller
@@ -13,7 +14,15 @@ class FileProkerController extends Controller
     public function create()
     {
         $user = Auth::user();
-        $proker = ProgramKerja::all();
+        $roleUser = Role::where('id', $user->id_role)->first();
+        $selectedDept = $roleUser->id_kementrian;  
+        
+        if ($selectedDept) {
+            $proker = ProgramKerja::where('id_kementrian', $selectedDept)->get();
+
+        } else {
+            $proker = collect(); 
+        }
 
 
         if ($user->id_role == 1) {

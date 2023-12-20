@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Kementrian;
 use App\Models\UserData;
+use App\Models\Role;
 use App\Models\ProgramKerja;
 use App\Models\FileProker;
 
@@ -15,7 +16,15 @@ class CourseController extends Controller
     public function list(Request $request)
     {
         $user = Auth::user();
-        $dept = Kementrian::all();
+        $roleUser = Role::where('id', $user->id_role)->first();
+        $userDept = $roleUser->id_kementrian;  
+        
+        if ($userDept) {
+            $dept = Kementrian::where('id', $userDept)->get();
+
+        } else {
+            $dept = collect(); 
+        }
 
         $selectedDept = $request->input('departmentSelect');
 
@@ -51,7 +60,15 @@ class CourseController extends Controller
     public function progress(Request $request)
     {
         $user = Auth::user();
-        $proker = ProgramKerja::all();
+        $roleUser = Role::where('id', $user->id_role)->first();
+        $selectedDept = $roleUser->id_kementrian;  
+        
+        if ($selectedDept) {
+            $proker = ProgramKerja::where('id_kementrian', $selectedDept)->get();
+
+        } else {
+            $proker = collect(); 
+        }
 
         $courseSelect = $request->input('courseSelect');
 
