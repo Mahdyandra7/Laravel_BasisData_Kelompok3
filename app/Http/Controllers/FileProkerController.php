@@ -7,6 +7,8 @@ use App\Models\FileProker;
 use Illuminate\Support\Facades\Auth;
 use App\Models\ProgramKerja;
 use App\Models\Role;
+use App\Models\KontribusiProgress;
+use App\Models\UserData;
 
 
 class FileProkerController extends Controller
@@ -15,7 +17,8 @@ class FileProkerController extends Controller
     {
         $user = Auth::user();
         $roleUser = Role::where('id', $user->id_role)->first();
-        $selectedDept = $roleUser->id_kementrian;  
+        $selectedDept = $roleUser->id_kementrian; 
+        $users = UserData::all(); 
         
         if ($selectedDept) {
             $proker = ProgramKerja::where('id_kementrian', $selectedDept)->get();
@@ -32,7 +35,7 @@ class FileProkerController extends Controller
             return view('error-404');
         
         } else {
-            return view('role-staff/staff-addfile', compact('proker'));
+            return view('role-staff/staff-addfile', compact('proker','users'));
         }
         
     }
@@ -60,6 +63,31 @@ class FileProkerController extends Controller
         $fileProker->status = 'Pending';
 
         $fileProker->save();
+
+        $kontribusi = new KontribusiProgress();
+        $kontribusi->id_progress = $fileProker->id;
+        $kontribusi->id_user = $fileProker->proker->pic;
+        $kontribusi->nilai_pic = 10;
+        $kontribusi->nilai_head = 0;
+        $kontribusi->save();
+
+        $staff = $request->input('staff');
+        $scores = $request->input('scores');
+    
+        // Validasi bahwa jumlah staf dan skor sesuai
+        if (count($staff) !== count($scores)) {
+            return redirect()->route('course-progress')->with('error', 'Invalid input data');
+        }
+    
+        // Loop untuk menyimpan kontribusi untuk setiap staf
+        foreach ($staff as $key => $staffId) {
+            $kontribusi2 = new KontribusiProgress();
+            $kontribusi2->id_progress = $fileProker->id;
+            $kontribusi2->id_user = $staffId;
+            $kontribusi2->nilai_pic = $scores[$key];
+            $kontribusi2->nilai_head = 0;
+            $kontribusi2->save();
+        }
 
         return redirect()->route('course-progress');
         
@@ -106,21 +134,28 @@ class FileProkerController extends Controller
 
     public function verif(Request $request, $id)
     {
-        // Find the user to update
+        // Find the file to update
         $file = FileProker::find($id);
-
+    
         if ($file) {
-            // Apply changes
+            // Apply changes to the FileProker table
             $file->messages = $request->input('msg');
             $file->progress_ke = $request->input('progress');
             $file->status = 'Verified';
-
             $file->save();
+        
+            $nilaiHead = $request->input('score');
 
-            return redirect()->route('course-progress')->with('success', 'User updated successfully');
+            // Update entries in the KontribusiProgress table
+            KontribusiProgress::where('id_progress', $file->id)
+                ->update([
+                    'nilai_head' => $nilaiHead,
+                ]);
+            
+            return redirect()->route('course-progress')->with('success', 'File verified successfully');
         }
-
-        return redirect()->route('course-progress')->with('error', 'User not found');
+    
+        return redirect()->route('course-progress')->with('error', 'File not found');
     }
 
     public function revision(Request $request, $id)

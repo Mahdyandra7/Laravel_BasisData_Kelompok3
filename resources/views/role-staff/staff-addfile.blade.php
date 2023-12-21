@@ -191,13 +191,47 @@
                     </div>
                   </div>
                   
-                  <label for="documentDesc" class="col-sm-1 col-form-label">File Description</label>
+                  <label for="documentDesc" class="col-sm-1 col-form-label">Description</label>
                   <div class="col-sm-11">
                     <div class="input-group mb-3 has-validation">
                       <textarea name="desc" class="form-control" style="height: 100px;" id="documentDesc"  placeholder="File Description" required></textarea>
                       <div class="invalid-feedback">Please enter a description about the document.</div>
                     </div>
                   </div>
+
+                  <label for="documentTitle" class="col-sm-1 col-form-label">Contributors</label>
+                  <div class="col-sm-11" id="contributions-container">
+                      <div class="contribution-item">
+                            <select class="form-select input-group mb-3 has-validation" name="staff[]" aria-label="Default select example" required>
+                                <option selected disabled value>Select Staff</option>
+                                @foreach($users as $user)
+                                    <option value="{{ $user->id }}">{{ $user->nama }}</option>
+                                @endforeach
+                            </select>
+                            <div class="input-group mb-3 has-validation">
+                                <input type="number" name="scores[]" class="form-control" placeholder="Contribution Score" required>
+                                <div class="invalid-feedback">Please enter a progress score.</div>
+                            </div>
+                      </div>
+                  </div>
+                  <div class="text-center">
+                    <button type="button" id="add-contribution" class="btn btn-outline-success btn-sm">More User</button>
+                  </div>
+
+                  <br></br>
+
+                  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                  <script>
+                      $(document).ready(function () {
+                          // Tambahkan elemen formulir saat tombol "Add Contribution" diklik
+                          $("#add-contribution").click(function () {
+                              var newItem = $("#contributions-container .contribution-item:first").clone();
+                              newItem.find("select").val([]);
+                              newItem.find("input[type=number]").val("");
+                              $("#contributions-container").append(newItem);
+                          });
+                      });
+                  </script>
 
                   <div class="text-center">
                     <button type="submit" class="btn btn-success">Upload File</button>

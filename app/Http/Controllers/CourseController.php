@@ -11,6 +11,7 @@ use App\Models\Role;
 use App\Models\ProgramKerja;
 use App\Models\FileProker;
 
+
 class CourseController extends Controller
 {
     public function list(Request $request)
@@ -61,7 +62,8 @@ class CourseController extends Controller
     {
         $user = Auth::user();
         $roleUser = Role::where('id', $user->id_role)->first();
-        $selectedDept = $roleUser->id_kementrian;  
+        $selectedDept = $roleUser->id_kementrian;
+        $users = UserData::all();  
         
         if ($selectedDept) {
             $proker = ProgramKerja::where('id_kementrian', $selectedDept)->get();
@@ -78,14 +80,13 @@ class CourseController extends Controller
         } else {
             $files = collect(); 
         }
-
         
         if ($user->id_role == 1) {
             return view('error-404');
         } elseif (in_array($user->id_role, [2, 3, 4, 5])) {
             return view('role-head/head-course-progress', compact('proker','files'));
         } else {
-            return view('role-staff/staff-course-progress', compact('proker','files'));
+            return view('role-staff/staff-course-progress', compact('users','proker','files'));
         }
     }
 

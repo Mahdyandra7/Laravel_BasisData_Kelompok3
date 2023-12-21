@@ -228,6 +228,14 @@
                                   </div>
                                 </div>
 
+                                <label for="documentTitle" class="col-sm-3 col-form-label">Overall Progress Score</label>
+                                <div class="col-sm-12">
+                                  <div class="input-group mb-3 has-validation">
+                                    <input type="number" name="score" class="form-control" id="documentTitle"  placeholder="Progress Score" required>
+                                    <div class="invalid-feedback">Please enter a progress score.</div>
+                                  </div>
+                                </div>
+
                               <label for="documentDesc" class="col-sm-3 col-form-label">Messages to PIC</label>
                               <div class="col-sm-12">
                                 <div class="input-group mb-3 has-validation">

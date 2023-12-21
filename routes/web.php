@@ -58,3 +58,5 @@ Route::delete('/course-progress/{id}', [FileProkerController::class, 'destroy'])
 Route::put('/course-progress/update/{id}', [FileProkerController::class, 'update'])->name('file.update')->middleware('auth');
 Route::put('/course-progress/verified/{id}', [FileProkerController::class, 'verif'])->name('file.verif')->middleware('auth');
 Route::put('/course-progress/revision/{id}', [FileProkerController::class, 'revision'])->name('file.revision')->middleware('auth');
+
+Route::put('/course-progress/addcont/{id}', [FileProkerController::class, 'cont'])->name('file.cont')->middleware('auth');
