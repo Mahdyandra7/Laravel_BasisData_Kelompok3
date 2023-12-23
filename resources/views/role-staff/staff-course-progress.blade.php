@@ -183,7 +183,6 @@
                 <th scope="col">Status</th>
                 <th scope="col">Messages</th>
                 <th scope="col">Link File</th>
-                <th scope="col">Contributor</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>

@@ -9,6 +9,7 @@ use App\Models\Kementrian;
 use App\Models\Role;
 use App\Models\ProgramKerja;
 use App\Models\FileProker;
+use App\Models\DataWarehouse;
 
 class DashboardController extends Controller
 {
@@ -45,5 +46,16 @@ class DashboardController extends Controller
             return view('role-staff/staff-index', compact('users','dept','roles','proker','maxProgress'));
         }
 
+    }
+
+    public function showData()
+    {
+        $dataKontribusiUser = (new DataWarehouse())->getKontribusiUser();
+        $dataProgressKementrian = (new DataWarehouse())->getProgressKementrian();
+
+        return view('role-head/your_view_name', [
+            'dataKontribusiUser' => $dataKontribusiUser,
+            'dataProgressKementrian' => $dataProgressKementrian,
+        ]);
     }
 }
