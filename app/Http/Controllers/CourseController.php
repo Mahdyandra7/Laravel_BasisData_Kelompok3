@@ -80,13 +80,20 @@ class CourseController extends Controller
         } else {
             $files = collect(); 
         }
+
+        if ($proker) {
+            $proker_pic = ProgramKerja::where('pic', $user->id)->get();
+
+        } else {
+            $proker_pic = collect(); 
+        }
         
         if ($user->id_role == 1) {
             return view('error-404');
         } elseif (in_array($user->id_role, [2, 3, 4, 5])) {
             return view('role-head/head-course-progress', compact('proker','files'));
         } else {
-            return view('role-staff/staff-course-progress', compact('users','proker','files'));
+            return view('role-staff/staff-course-progress', compact('users','proker_pic','files'));
         }
     }
 

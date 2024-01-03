@@ -155,7 +155,7 @@
           <p></p>
           <select class="form-select" id="courseSelect" name="courseSelect" aria-label="Default select example" onchange="courseSelect(this.value)">
             <option selected disabled value>Select Course</option>
-            @foreach($proker as $program)
+            @foreach($proker_pic as $program)
               <option value="{{ $program->id }}">{{ $program->nama_proker }}</option>
             @endforeach
           </select>
@@ -193,7 +193,7 @@
                   <th scope="row">{{ $file->id }}</th>
                   <td>{{ $file->nama_file }}</td>
                   <td>
-                    @foreach($proker as $program)
+                    @foreach($proker_pic as $program)
                         @if($program->id == $file->id_proker)
                         {{ number_format(number_format( $file->progress_ke / $program->total_progress, 2)* 100) }}%
                         @endif
