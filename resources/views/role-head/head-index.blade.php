@@ -162,8 +162,38 @@
           </ul>
           <div class="tab-content pt-2" id="borderedTabContent">
             <div class="tab-pane fade show active" id="bordered-home" role="tabpanel" aria-labelledby="home-tab">
+
+              <p></p>
+
               <div class="row">
-                
+                <div class="col-lg-12">
+                  <select class="form-select" id="monthSelect" name="monthSelect" aria-label="Default select example" onchange="selectMonth(this.value)">
+                    <option selected disabled value>Select Month</option>
+                    <option value="0">All</option>
+                    <option value="1">January</option>
+                    <option value="2">February</option>
+                    <option value="3">March</option>
+                    <option value="4">April</option>
+                    <option value="5">May</option>
+                    <option value="6">June</option>
+                    <option value="7">July</option>
+                    <option value="8">August</option>
+                    <option value="9">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">Desember</option>
+                  </select>
+                </div>
+
+                <script>
+                  function selectMonth(value) {
+                    // Redirect to the course-list route with the selected value as a query parameter
+                    window.location.href = '/?monthSelect=' + value;
+                  }
+                </script>
+
+                <p></p>
+
                 <div class="col-lg-7">
                   <div class="card">
                     <div class="card-body">
@@ -280,7 +310,7 @@
                 </div>
               </div>
             </div>
-            
+
             <div class="tab-pane fade" id="bordered-profile" role="tabpanel" aria-labelledby="profile-tab">
               <div class="row">
 
