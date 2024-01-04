@@ -266,12 +266,12 @@
                       <script>
                         document.addEventListener("DOMContentLoaded", () => {
                           // Data awal
-                          const originalData = [130, 0, 129, 0, 81, 80, 90];
+                          const originalData = {{ json_encode($UsercountList) }};
 
                           // Menggabungkan data dengan kategori
                           const combinedData = originalData.map((value, index) => ({
                             value,
-                            category: ['Randy', 'Budi', 'Anton', 'Dewi', 'Andi', 'Fina', 'Niko', 'Lini'][index]
+                            category: ['Randi', 'Budi', 'Anton', 'Dewi', 'Andi', 'Fina', 'Niko', 'Lini'][index]
                           }));
 
                           // Mengurutkan data berdasarkan nilai dari besar ke kecil

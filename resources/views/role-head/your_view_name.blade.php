@@ -56,29 +56,6 @@
     </tbody>
 </table>
 
-<h2>RnD Count</h2>
-<table>
-    <thead>
-        <tr>
-            <th>Bulan</th>
-            <th>Count</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($RnDcount as $bulan => $count)
-        <tr>
-            <td>{{ $bulan }}</td>
-            <td>{{ $count }}</td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
-
-<p>{{ json_encode($RnDcountsList) }}</p>
-<p>{{ json_encode($HRcountsList) }}</p>
-<p>{{ json_encode($MnCcountsList) }}</p>
-<p>{{ json_encode($PRcountsList) }}</p>
-
 
 <div class="row">
     <div class="col-lg-12">
@@ -108,6 +85,4 @@
     </script>
 </div>
 
-<p>{{ json_encode($VerifiedcountList) }}</p>
-<p>{{ json_encode($PendingcountList) }}</p>
-<p>{{ json_encode($RevisioncountList) }}</p>
+<p>{{ json_encode($UsercountList) }}</p>

@@ -131,10 +131,35 @@ class DashboardController extends Controller
         $PendingcountList = array_values($Pendingcount);
         $RevisioncountList = array_values($Revisioncount);
 
+        $Usercount = [];
+        $dataUser = $dataKontribusiUser;
+
+        $stafff = ['Randi', 'Budi', 'Anton', 'Dewi', 'Andi', 'Fina', 'Niko', 'Lini'];
+
+        if ($monthSelect == '0') {
+            foreach ($stafff as $staf) {
+                $StaffData = $dataUser->where('nama_user', $staf);
+
+                $countStaff = $StaffData->sum('nilai_kontribusi');
+
+                $Usercount[$staf] = $countStaff;
+            }
+        } else {
+            foreach ($stafff as $staf) {
+                $StaffData = $dataUser->where('bulan', $monthSelect)->where('nama_user', $staf);
+
+                $countStaff = $StaffData->sum('nilai_kontribusi');
+
+                $Usercount[$staf] = $countStaff;
+            }
+        }
+
+        $UsercountList = array_values($Usercount);
+
         if ($user->id_role == 1) {
             return view('role-admin.admin-index', compact('users', 'dept', 'roles', 'username', 'userrole', 'dataKontribusiUser', 'dataProgressKementrian'));
         } elseif (in_array($user->id_role, [2, 3, 4, 5])) {
-            return view('role-head/head-index', compact('users', 'dept', 'roles', 'proker', 'maxProgress', 'username', 'userrole', 'dataKontribusiUser', 'dataProgressKementrian', 'RnDcountsList', 'HRcountsList', 'MnCcountsList', 'PRcountsList', 'VerifiedcountList', 'PendingcountList', 'RevisioncountList'));
+            return view('role-head/head-index', compact('users', 'dept', 'roles', 'proker', 'maxProgress', 'username', 'userrole', 'dataKontribusiUser', 'dataProgressKementrian', 'RnDcountsList', 'HRcountsList', 'MnCcountsList', 'PRcountsList', 'VerifiedcountList', 'PendingcountList', 'RevisioncountList','UsercountList','stafff'));
         } else {
             return view('role-staff/staff-index', compact('users', 'dept', 'roles', 'proker', 'maxProgress', 'username', 'userrole', 'dataKontribusiUser', 'dataProgressKementrian'));
         }
@@ -145,9 +170,36 @@ class DashboardController extends Controller
         $dataKontribusiUser = (new DataWarehouse())->getKontribusiUser();
         $dataProgressKementrian = (new DataWarehouse())->getProgressKementrian();
 
+        $monthSelect = $request->input('monthSelect');
+        $Usercount = [];
+        $dataUser = $dataKontribusiUser;
+
+        $stafff = ['Randi', 'Budi', 'Anton', 'Dewi', 'Andi', 'Fina', 'Niko', 'Lini'];
+
+        if ($monthSelect == '0') {
+            foreach ($stafff as $staf) {
+                $StaffData = $dataUser->where('nama_user', $staf);
+
+                $countStaff = $StaffData->sum('nilai_kontribusi');
+
+                $Usercount[$staf] = $countStaff;
+            }
+        } else {
+            foreach ($stafff as $staf) {
+                $StaffData = $dataUser->where('bulan', $monthSelect)->where('nama_user', $staf);
+
+                $countStaff = $StaffData->sum('nilai_kontribusi');
+
+                $Usercount[$staf] = $countStaff;
+            }
+        }
+
+        $UsercountList = array_values($Usercount);
+
         return view('role-head/your_view_name', [
             'dataKontribusiUser' => $dataKontribusiUser,
-            'dataProgressKementrian' => $dataProgressKementrian
+            'dataProgressKementrian' => $dataProgressKementrian,
+            'UsercountList' => $UsercountList,
         ]);
     }
 }
