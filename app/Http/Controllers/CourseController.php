@@ -48,13 +48,17 @@ class CourseController extends Controller
         }
 
         $userproker = UserData::all();
+
+        $roleUser = Role::where('id', $user->id_role)->first();
+        $username = $user->nama;
+        $userrole = $roleUser->nama_role;
         
         if ($user->id_role == 1) {
             return view('error-404');
         } elseif (in_array($user->id_role, [2, 3, 4, 5])) {
-            return view('role-head/head-course-list', compact('dept','users','proker','maxProgress','userproker'));
+            return view('role-head/head-course-list', compact('dept','users','proker','maxProgress','userproker','username','userrole'));
         } else {
-            return view('role-staff/staff-course-list', compact('dept','users','proker','maxProgress'));
+            return view('role-staff/staff-course-list', compact('dept','users','proker','maxProgress','username','userrole'));
         }
     }
 
@@ -87,13 +91,17 @@ class CourseController extends Controller
         } else {
             $proker_pic = collect(); 
         }
+
+        $roleUser = Role::where('id', $user->id_role)->first();
+        $username = $user->nama;
+        $userrole = $roleUser->nama_role;
         
         if ($user->id_role == 1) {
             return view('error-404');
         } elseif (in_array($user->id_role, [2, 3, 4, 5])) {
-            return view('role-head/head-course-progress', compact('proker','files'));
+            return view('role-head/head-course-progress', compact('proker','files','username','userrole'));
         } else {
-            return view('role-staff/staff-course-progress', compact('users','proker_pic','files'));
+            return view('role-staff/staff-course-progress', compact('users','proker_pic','files','username','userrole'));
         }
     }
 

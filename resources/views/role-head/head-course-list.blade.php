@@ -63,14 +63,14 @@
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>User Head</h6>
-              <span>Head of Departement A</span>
+              <h6>{{ $username }}</h6>
+              <span>{{ $userrole }}</span>
             </li>
             <li>
               <hr class="dropdown-divider">
             </li>
 
-            <li>
+            <!-- <li>
               <a class="dropdown-item d-flex align-items-center" href="/profile">
                 <i class="bi bi-person"></i>
                 <span>My Profile</span>
@@ -78,7 +78,7 @@
             </li>
             <li>
               <hr class="dropdown-divider">
-            </li>
+            </li> -->
 
             <li>
               <a class="dropdown-item d-flex align-items-center" href="/logout">
@@ -109,17 +109,17 @@
 
       <li class="nav-item">
         <a class="nav-link " data-bs-target="#course-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-journal-text"></i><span>Course Work</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-journal-text"></i><span>Work Program</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="course-nav" class="nav-content " data-bs-parent="#sidebar-nav">
           <li>
             <a href="/course-list" class="active">
-              <i class="bi bi-circle"></i><span>Course List</span>
+              <i class="bi bi-circle"></i><span>Program List</span>
             </a>
           </li>
           <li>
             <a href="/course-progress">
-              <i class="bi bi-circle"></i><span>Course Progress</span>
+              <i class="bi bi-circle"></i><span>Program Progress</span>
             </a>
           </li>
         </ul>
@@ -139,12 +139,12 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Course List</h1>
+      <h1>Program List</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/">Home</a></li>
-          <li class="breadcrumb-item">Course Work</li>
-          <li class="breadcrumb-item active">Course List</li>
+          <li class="breadcrumb-item">Work Program</li>
+          <li class="breadcrumb-item active">Program List</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -172,13 +172,13 @@
           <table class="table datatable table-hover">
             <p>
               <div class="d-grid gap-2 mt-3">
-                <a type="button" class="btn btn-outline-success rounded-pill btn-sm" href="/addcourse"><i class="bi bi-journal-plus"></i> | Add New Course</a>
+                <a type="button" class="btn btn-outline-success rounded-pill btn-sm" href="/addcourse"><i class="bi bi-journal-plus"></i> | Add New Program</a>
               </div>
             </p>
             <thead>
               <tr>
-                <th scope="col">CourseId</th>
-                <th scope="col">Course Name</th>
+                <th scope="col">ProgramId</th>
+                <th scope="col">Program Name</th>
                 <th scope="col">Person in Contact</th>
                 <th scope="col">Progress (%)</th>
                 <th scope="col">Action</th>
@@ -207,11 +207,11 @@
                       <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                           <div class="modal-header">
-                            <h5 class="modal-title">Delete Course "<strong>{{ $program->nama_proker }}</strong>"</h5>
+                            <h5 class="modal-title">Delete Program "<strong>{{ $program->nama_proker }}</strong>"</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
                           <div class="modal-body">
-                            <p>Are you sure want to delete this course?</p>
+                            <p>Are you sure want to delete this program?</p>
                             <strong>Note: </strong>You cannot bring back this course once you delete it.
                           </div>
                             <form method="POST" action="{{ route('course.destroy', ['id' => $program->id]) }}">
@@ -229,14 +229,14 @@
                       <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                           <div class="modal-header">
-                            <h5 class="modal-title">Edit Course "<strong>{{ $program->nama_proker }}</strong>"</h5>
+                            <h5 class="modal-title">Edit Program "<strong>{{ $program->nama_proker }}</strong>"</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
                           <form action="{{ route('course.update', ['id' => $program->id]) }}" method="POST">
                             @csrf
                             @method('PUT')
                             <div class="modal-body">
-                                <label for="inputText" class="col-sm-3 col-form-label"> Course Name</label>
+                                <label for="inputText" class="col-sm-3 col-form-label"> Program Name</label>
                                 <div class="col-sm-12">
                                   <div class="input-group mb-3 has-validation">
                                     <input type="text" name="proker_name" class="form-control" placeholder="Course Name" aria-label="Course Name" aria-describedby="basic-addon1" value="{{ $program->nama_proker }}" required>

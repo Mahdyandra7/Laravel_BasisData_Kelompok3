@@ -15,9 +15,13 @@ class RolesController extends Controller
         $user = Auth::user();
         $dept = Kementrian::all();
         $roles = Role::all();
+
+        $roleUser = Role::where('id', $user->id_role)->first();
+        $username = $user->nama;
+        $userrole = $roleUser->nama_role;
         
         if ($user->id_role == 1) {
-            return view('role-admin/admin-roles', compact('roles','dept'));
+            return view('role-admin/admin-roles', compact('roles','dept','username','userrole'));
         } else {
             return view('error-404');
         }

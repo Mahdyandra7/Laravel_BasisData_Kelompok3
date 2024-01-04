@@ -36,14 +36,19 @@ class DashboardController extends Controller
         foreach ($proker as $program) {
             $maxProgress[$program->id] = $fileproker->where('id_proker', $program->id)->max('progress_ke');
         }
+
+        $username = $user->nama;
+        $userrole = $roleUser->nama_role;
+
+        $dataKontribusiUser = (new DataWarehouse())->getKontribusiUser();
+        $dataProgressKementrian = (new DataWarehouse())->getProgressKementrian();
     
-        
         if ($user->id_role == 1) {
-            return view('role-admin.admin-index', compact('users','dept','roles'));
+            return view('role-admin.admin-index', compact('users','dept','roles','username','userrole','dataKontribusiUser','dataProgressKementrian'));
         } elseif (in_array($user->id_role, [2, 3, 4, 5])) {
-            return view('role-head/head-index', compact('users','dept','roles','proker','maxProgress'));
+            return view('role-head/head-index', compact('users','dept','roles','proker','maxProgress','username','userrole','dataKontribusiUser','dataProgressKementrian'));
         } else {
-            return view('role-staff/staff-index', compact('users','dept','roles','proker','maxProgress'));
+            return view('role-staff/staff-index', compact('users','dept','roles','proker','maxProgress','username','userrole','dataKontribusiUser','dataProgressKementrian'));
         }
 
     }

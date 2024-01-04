@@ -63,14 +63,14 @@
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>User Head</h6>
-              <span>Head of Departement A</span>
+              <h6>{{ $username }}</h6>
+              <span>{{ $userrole }}</span>
             </li>
             <li>
               <hr class="dropdown-divider">
             </li>
 
-            <li>
+            <!-- <li>
               <a class="dropdown-item d-flex align-items-center" href="/profile">
                 <i class="bi bi-person"></i>
                 <span>My Profile</span>
@@ -78,7 +78,7 @@
             </li>
             <li>
               <hr class="dropdown-divider">
-            </li>
+            </li> -->
 
             <li>
               <a class="dropdown-item d-flex align-items-center" href="/logout">
@@ -109,17 +109,17 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#course-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-journal-text"></i><span>Course Work</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-journal-text"></i><span>Work Program</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="course-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
             <a href="/course-list">
-              <i class="bi bi-circle"></i><span>Course List</span>
+              <i class="bi bi-circle"></i><span>Program List</span>
             </a>
           </li>
           <li>
             <a href="/course-progress">
-              <i class="bi bi-circle"></i><span>Course Progress</span>
+              <i class="bi bi-circle"></i><span>Program Progress</span>
             </a>
           </li>
         </ul>

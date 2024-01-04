@@ -63,14 +63,14 @@
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>User Head</h6>
-              <span>Head of Departement A</span>
+              <h6>{{ $username }}</h6>
+              <span>{{ $userrole }}</span>
             </li>
             <li>
               <hr class="dropdown-divider">
             </li>
 
-            <li>
+            <!-- <li>
               <a class="dropdown-item d-flex align-items-center" href="/profile">
                 <i class="bi bi-person"></i>
                 <span>My Profile</span>
@@ -78,7 +78,7 @@
             </li>
             <li>
               <hr class="dropdown-divider">
-            </li>
+            </li> -->
 
             <li>
               <a class="dropdown-item d-flex align-items-center" href="/logout">
@@ -109,17 +109,17 @@
 
       <li class="nav-item">
         <a class="nav-link " data-bs-target="#course-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-journal-text"></i><span>Course Work</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-journal-text"></i><span>Work Program</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="course-nav" class="nav-content " data-bs-parent="#sidebar-nav">
           <li>
             <a href="/course-list" class="active">
-              <i class="bi bi-circle"></i><span>Course List</span>
+              <i class="bi bi-circle"></i><span>Program List</span>
             </a>
           </li>
           <li>
             <a href="/course-progress">
-              <i class="bi bi-circle"></i><span>Course Progress</span>
+              <i class="bi bi-circle"></i><span>Program Progress</span>
             </a>
           </li>
         </ul>
@@ -139,13 +139,13 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Course List</h1>
+      <h1>Program List</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/">Home</a></li>
-          <li class="breadcrumb-item">Course Work</li>
-          <li class="breadcrumb-item"><a href="/course-list"> Course List</a></li>
-          <li class="breadcrumb-item active">Add New Course</li>
+          <li class="breadcrumb-item">Work Program</li>
+          <li class="breadcrumb-item"><a href="/course-list"> Program List</a></li>
+          <li class="breadcrumb-item active">Add New Program</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -156,13 +156,13 @@
 
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Add New Course Form</h5>
+              <h5 class="card-title">Add New Program Form</h5>
 
               <!-- General Form Elements -->
               <form action="{{ route('store-course') }}" method="POST">
                 @csrf
                 <div class="row mb-3">
-                  <label for="inputText" class="col-sm-2 col-form-label"> Course Name</label>
+                  <label for="inputText" class="col-sm-2 col-form-label"> Program Name</label>
                   <div class="col-sm-10">
                     <div class="input-group mb-3 has-validation">
                       <input type="text" name="proker_name" class="form-control" placeholder="Course Name" aria-label="Course Name" aria-describedby="basic-addon1" required>
@@ -185,7 +185,7 @@
                       @foreach($users as $user)
                           <option value="{{ $user->id }}">{{ $user->nama }}</option>
                       @endforeach
-                      <div class="invalid-feedback">Please enter a staff to be person in contact for the course.</div>
+                      <div class="invalid-feedback">Please enter a staff to be person in contact for the program.</div>
                     </select>
                   </div>
 
@@ -216,7 +216,7 @@
                     </div>
                   </div>
 
-                  <label for="inputText" class="col-sm-2 col-form-label"> Course Start Date</label>
+                  <label for="inputText" class="col-sm-2 col-form-label"> Program Start Date</label>
                   <div class="col-sm-10">
                     <div class="input-group mb-3 has-validation">
                       <input type="date" name="proker_start" class="form-control" placeholder="Start Date" aria-label="Start Date" aria-describedby="basic-addon1" required>
@@ -224,7 +224,7 @@
                     </div>
                   </div>
 
-                  <label for="inputText" class="col-sm-2 col-form-label"> Course End Date</label>
+                  <label for="inputText" class="col-sm-2 col-form-label"> Program End Date</label>
                   <div class="col-sm-10">
                     <div class="input-group mb-3 has-validation">
                       <input type="date" name="proker_end" class="form-control" placeholder="End Date" aria-label="End Date" aria-describedby="basic-addon1" required>
@@ -233,7 +233,7 @@
                   </div>
 
                   <div class="text-center">
-                    <button type="submit" class="btn btn-success">Add Course</button>
+                    <button type="submit" class="btn btn-success">Add Program</button>
                     <button type="reset" class="btn btn-secondary">Reset Form</button>
                   </div>
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Kementrian;
+use App\Models\Role;
 
 class AddDepartementController extends Controller
 {
@@ -13,9 +14,13 @@ class AddDepartementController extends Controller
     {
         $user = Auth::user();
         $dept = Kementrian::all();
+
+        $roleUser = Role::where('id', $user->id_role)->first();
+        $username = $user->nama;
+        $userrole = $roleUser->nama_role;
         
         if ($user->id_role == 1) {
-            return view('role-admin/admin-adddepartement', compact('dept'));
+            return view('role-admin/admin-adddepartement', compact('dept','username','userrole'));
         } else {
             return view('error-404');
         }

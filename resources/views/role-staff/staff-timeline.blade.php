@@ -63,14 +63,14 @@
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>User Staff</h6>
-              <span>Staff of Departement A</span>
+              <h6>{{ $username }}</h6>
+              <span>{{ $userrole }}</span>
             </li>
             <li>
               <hr class="dropdown-divider">
             </li>
 
-            <li>
+            <!-- <li>
               <a class="dropdown-item d-flex align-items-center" href="/profile">
                 <i class="bi bi-person"></i>
                 <span>My Profile</span>
@@ -78,7 +78,7 @@
             </li>
             <li>
               <hr class="dropdown-divider">
-            </li>
+            </li> -->
 
             <li>
               <a class="dropdown-item d-flex align-items-center" href="/logout">
@@ -109,17 +109,17 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#course-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-journal-text"></i><span>Course Work</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-journal-text"></i><span>Work Program</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="course-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
             <a href="/course-list">
-              <i class="bi bi-circle"></i><span>Course List</span>
+              <i class="bi bi-circle"></i><span>Program List</span>
             </a>
           </li>
           <li>
             <a href="/course-progress">
-              <i class="bi bi-circle"></i><span>Course Progress</span>
+              <i class="bi bi-circle"></i><span>Program Progress</span>
             </a>
           </li>
         </ul>
@@ -147,6 +147,80 @@
         </ol>
       </nav>
     </div><!-- End Page Title -->
+
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Work Programmes Timeline</h5>
+
+        <!-- Bordered Tabs -->
+        <ul class="nav nav-tabs nav-tabs-bordered" id="borderedTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#bordered-home" type="button" role="tab" aria-controls="home" aria-selected="false">Future Work Programmes</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#bordered-profile" type="button" role="tab" aria-controls="profile" aria-selected="true">Ongoing Work Programmes</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#bordered-contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Past Work Programmes</button>
+          </li>
+        </ul>
+        <div class="tab-content pt-2" id="borderedTabContent">
+          <div class="tab-pane fade" id="bordered-home" role="tabpanel" aria-labelledby="home-tab">
+            <!-- List group with Advanced Contents for Future Work Programmes -->
+            <div class="list-group">
+              @foreach($futurePrograms as $key => $program)
+              <a href="#" class="list-group-item list-group-item-action">
+                <!-- Tampilkan detail program di sini -->
+                <!-- Contoh: -->
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">{{ $program->nama_proker }}</h5>
+                  <small>{{ $program->tanggal_mulai }} - {{ $program->tanggal_selesai }}</small>
+                </div>
+                <p class="mb-1">{{ $futureKementrian[$key]->nama_kementrian }}</p>
+                <small>Person in Charge (PIC): {{ $futurePIC[$key]->nama }}</small>
+              </a>
+              @endforeach
+            </div><!-- End List group Advanced Content for Future Work Programmes -->
+          </div>
+
+          <div class="tab-pane fade show active" id="bordered-profile" role="tabpanel" aria-labelledby="profile-tab">
+            <!-- List group with Advanced Contents for Ongoing Work Programmes -->
+            <div class="list-group">
+              @foreach($ongoingPrograms as $key => $program)
+              <a href="#" class="list-group-item list-group-item-action">
+                <!-- Tampilkan detail program di sini -->
+                <!-- Contoh: -->
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">{{ $program->nama_proker }}</h5>
+                  <small>{{ $program->tanggal_mulai }} - {{ $program->tanggal_selesai }}</small>
+                </div>
+                <p class="mb-1">{{ $ongoingKementrian[$key]->nama_kementrian }}</p>
+                <small>Person in Charge (PIC): {{ $ongoingPIC[$key]->nama }}</small>
+              </a>
+              @endforeach
+            </div><!-- End List group Advanced Content for Ongoing Work Programmes -->
+          </div>
+
+          <div class="tab-pane fade" id="bordered-contact" role="tabpanel" aria-labelledby="contact-tab">
+            <!-- List group with Advanced Contents for Past Work Programmes -->
+            <div class="list-group">
+              @foreach($pastPrograms as $key => $program)
+              <a href="#" class="list-group-item list-group-item-action">
+                <!-- Tampilkan detail program di sini -->
+                <!-- Contoh: -->
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">{{ $program->nama_proker }}</h5>
+                  <small>{{ $program->tanggal_mulai }} - {{ $program->tanggal_selesai }}</small>
+                </div>
+                <p class="mb-1">{{ $pastKementrian[$key]->nama_kementrian }}</p>
+                <small>Person in Charge (PIC): {{ $pastPIC[$key]->nama }}</small>
+              </a>
+              @endforeach
+            </div><!-- End List group Advanced Content for Past Work Programmes -->
+          </div>
+        </div><!-- End Bordered Tabs -->
+
+      </div>
 
   </main><!-- End #main -->
 

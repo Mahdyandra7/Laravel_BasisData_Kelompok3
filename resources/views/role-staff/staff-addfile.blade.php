@@ -63,14 +63,14 @@
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>User Staff</h6>
-              <span>Staff of Departement A</span>
+              <h6>{{ $username }}</h6>
+              <span>{{ $userrole }}</span>
             </li>
             <li>
               <hr class="dropdown-divider">
             </li>
 
-            <li>
+            <!-- <li>
               <a class="dropdown-item d-flex align-items-center" href="/profile">
                 <i class="bi bi-person"></i>
                 <span>My Profile</span>
@@ -78,7 +78,7 @@
             </li>
             <li>
               <hr class="dropdown-divider">
-            </li>
+            </li> -->
 
             <li>
               <a class="dropdown-item d-flex align-items-center" href="/logout">
@@ -109,17 +109,17 @@
 
       <li class="nav-item">
         <a class="nav-link " data-bs-target="#course-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-journal-text"></i><span>Course Work</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-journal-text"></i><span>Work Program</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="course-nav" class="nav-content " data-bs-parent="#sidebar-nav">
           <li>
             <a href="/course-list">
-              <i class="bi bi-circle"></i><span>Course List</span>
+              <i class="bi bi-circle"></i><span>Program List</span>
             </a>
           </li>
           <li>
             <a href="/course-progress" class="active">
-              <i class="bi bi-circle"></i><span>Course Progress</span>
+              <i class="bi bi-circle"></i><span>Program Progress</span>
             </a>
           </li>
         </ul>
@@ -139,13 +139,13 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Course List</h1>
+      <h1>Program List</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/">Home</a></li>
-          <li class="breadcrumb-item">Course Work</li>
-          <li class="breadcrumb-item "><a href="course-progress">Course Progress</a></li>
-          <li class="breadcrumb-item active">Upload Course Progress File</li>
+          <li class="breadcrumb-item">Work Program</li>
+          <li class="breadcrumb-item "><a href="course-progress">program Progress</a></li>
+          <li class="breadcrumb-item active">Upload Program Progress File</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -156,17 +156,17 @@
 
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Upload New Course Progress File</h5>
+              <h5 class="card-title">Upload New Program Progress File</h5>
 
               <!-- General Form Elements -->
               <form action="{{ route('upload-file') }}" enctype="multipart/form-data" method="POST">
                 @csrf
                 <div class="row mb-3">
-                  <label for="documentTitle" class="col-sm-1 col-form-label">Course</label>
+                  <label for="documentTitle" class="col-sm-1 col-form-label">Program</label>
                   <div class="col-sm-11">
                     <div class="input-group mb-3 has-validation">
                       <select id="departementSelect" class="form-select input-group mb-2 has-validation" name="course" aria-label="Default select example" required>
-                        <option selected disabled value>Select Course</option>
+                        <option selected disabled value>Select Program</option>
                         @foreach($proker as $pro)
                           <option value="{{ $pro->id }}">{{ $pro->nama_proker }}</option>
                         @endforeach

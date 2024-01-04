@@ -27,6 +27,9 @@ class FileProkerController extends Controller
             $proker = collect(); 
         }
 
+        $roleUser = Role::where('id', $user->id_role)->first();
+        $username = $user->nama;
+        $userrole = $roleUser->nama_role;
 
         if ($user->id_role == 1) {
             return view('error-404');}
@@ -35,7 +38,7 @@ class FileProkerController extends Controller
             return view('error-404');
         
         } else {
-            return view('role-staff/staff-addfile', compact('proker','users'));
+            return view('role-staff/staff-addfile', compact('proker','users','username','userrole'));
         }
         
     }

@@ -63,14 +63,14 @@
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>User Staff</h6>
-              <span>Staff of Departement A</span>
+              <h6>{{ $username }}</h6>
+              <span>{{ $userrole }}</span>
             </li>
             <li>
               <hr class="dropdown-divider">
             </li>
 
-            <li>
+            <!-- <li>
               <a class="dropdown-item d-flex align-items-center" href="/profile">
                 <i class="bi bi-person"></i>
                 <span>My Profile</span>
@@ -78,7 +78,7 @@
             </li>
             <li>
               <hr class="dropdown-divider">
-            </li>
+            </li> -->
 
             <li>
               <a class="dropdown-item d-flex align-items-center" href="/logout">
@@ -109,17 +109,17 @@
 
       <li class="nav-item">
         <a class="nav-link " data-bs-target="#course-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-journal-text"></i><span>Course Work</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-journal-text"></i><span>Work Program</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="course-nav" class="nav-content " data-bs-parent="#sidebar-nav">
           <li>
             <a href="/course-list">
-              <i class="bi bi-circle"></i><span>Course List</span>
+              <i class="bi bi-circle"></i><span>Program List</span>
             </a>
           </li>
           <li>
             <a href="/course-progress" class="active">
-              <i class="bi bi-circle"></i><span>Course Progress</span>
+              <i class="bi bi-circle"></i><span>Program Progress</span>
             </a>
           </li>
         </ul>
@@ -139,12 +139,12 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Course List</h1>
+      <h1>Program Progress</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/">Home</a></li>
-          <li class="breadcrumb-item">Course Work</li>
-          <li class="breadcrumb-item active">Course Progress</li>
+          <li class="breadcrumb-item">Work Program</li>
+          <li class="breadcrumb-item active">Program Progress</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -154,7 +154,7 @@
         <div class="card-body">
           <p></p>
           <select class="form-select" id="courseSelect" name="courseSelect" aria-label="Default select example" onchange="courseSelect(this.value)">
-            <option selected disabled value>Select Course</option>
+            <option selected disabled value>Select Program</option>
             @foreach($proker_pic as $program)
               <option value="{{ $program->id }}">{{ $program->nama_proker }}</option>
             @endforeach

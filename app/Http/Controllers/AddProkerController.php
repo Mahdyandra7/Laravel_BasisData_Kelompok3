@@ -31,9 +31,13 @@ class AddProkerController extends Controller
             $dept = collect(); 
             $users = collect(); 
         }
+
+        $roleUser = Role::where('id', $user->id_role)->first();
+        $username = $user->nama;
+        $userrole = $roleUser->nama_role;
         
         if (in_array($user->id_role, [2, 3, 4, 5])) {
-            return view('role-head/head-addcourse', compact('dept','users'));
+            return view('role-head/head-addcourse', compact('dept','users','username','userrole'));
         
         } else {
             return view('error-404');

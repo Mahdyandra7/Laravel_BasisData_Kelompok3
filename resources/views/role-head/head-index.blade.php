@@ -63,14 +63,14 @@
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>User Head</h6>
-              <span>Head of Departement A</span>
+              <h6>{{ $username }}</h6>
+              <span>{{ $userrole }}</span>
             </li>
             <li>
               <hr class="dropdown-divider">
             </li>
 
-            <li>
+            <!-- <li>
               <a class="dropdown-item d-flex align-items-center" href="/profile">
                 <i class="bi bi-person"></i>
                 <span>My Profile</span>
@@ -78,7 +78,7 @@
             </li>
             <li>
               <hr class="dropdown-divider">
-            </li>
+            </li> -->
 
             <li>
               <a class="dropdown-item d-flex align-items-center" href="/logout">
@@ -109,17 +109,17 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#course-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-journal-text"></i><span>Course Work</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-journal-text"></i><span>Work Program</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="course-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
             <a href="/course-list">
-              <i class="bi bi-circle"></i><span>Course List</span>
+              <i class="bi bi-circle"></i><span>Program List</span>
             </a>
           </li>
           <li>
             <a href="course-progress">
-              <i class="bi bi-circle"></i><span>Course Progress</span>
+              <i class="bi bi-circle"></i><span>Program Progress</span>
             </a>
           </li>
         </ul>
@@ -154,120 +154,204 @@
           <!-- Bordered Tabs -->
           <ul class="nav nav-tabs nav-tabs-bordered" id="borderedTab" role="tablist">
             <li class="nav-item" role="presentation">
-              <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#bordered-home" type="button" role="tab" aria-controls="home" aria-selected="true">Progress & Timeline</button>
+              <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#bordered-home" type="button" role="tab" aria-controls="home" aria-selected="true">Performa</button>
             </li>
             <li class="nav-item" role="presentation">
-              <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#bordered-profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Users & Departement</button>
+              <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#bordered-profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Data Warehouse</button>
             </li>
           </ul>
           <div class="tab-content pt-2" id="borderedTabContent">
             <div class="tab-pane fade show active" id="bordered-home" role="tabpanel" aria-labelledby="home-tab">
               <div class="row">
-                  <div class="col-lg-7">
-                      <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Progress Report</h5>
-                            <table class="table table-hover">
-                              <tbody>
-                                  @foreach($proker as $program)
-                                  <tr>
-                                      <td>
-                                          {{ $program->nama_proker }} <br>
-                                          <div class="progress mt-3">
-                                              <div class="progress-bar" role="progressbar" style="width: {{ number_format(number_format($maxProgress[$program->id] / $program->total_progress, 2)* 100) }}%" aria-valuenow="{{ number_format($maxProgress[$program->id] / $program->total_progress, 2) * 100 }}" aria-valuemin="0" aria-valuemax="100">{{ number_format($maxProgress[$program->id] / $program->total_progress, 2) * 100 }}%</div>
-                                          </div>
-                                      </td>
-                                  </tr>
-                                  @endforeach
-                              </tbody>
-                            </table>
-                        </div>
-                      </div>
-                  </div>
-                  <div class="col-lg-5">
-                      <div class="card">
-                          <div class="card-body">
-                              <h5 class="card-title">Timeline Activity</h5>
-                              <!-- ... Other timeline content ... -->
-                          </div>
-                      </div>
-                  </div>
-              </div>
-            </div>
-            <div class="tab-pane fade" id="bordered-profile" role="tabpanel" aria-labelledby="profile-tab">
-              <div class="row">
-                <div class="col-lg-8">
-
+                
+                <div class="col-lg-7">
                   <div class="card">
                     <div class="card-body">
-                      <h5 class="card-title">User Table</h5>
-
-                      <!-- Table with stripped rows -->
-                      <table class="table table-hover table-striped datatable">
-                          <thead>
-                              <tr>
-                                  <th scope="col">UserId</th>
-                                  <th scope="col">Username</th>
-                                  <th scope="col">Full Name</th>
-                                  <!-- <th scope="col">NIM</th> -->
-                                  <th scope="col">Roles</th>
-                                  <th scope="col">Period</th>
-                                  <!-- <th scope="col">Email</th> -->
-                                  <!-- <th scope="col">Phones</th> -->
-                             </tr>
-                          </thead>
-                          <tbody>
-                              @foreach($users as $user)
-                                  <tr>
-                                      <th scope="row">{{ $user->id }}</th>
-                                      <td>{{ $user->username }}</td>
-                                      <td>{{ $user->nama }}</td>
-                                      <!-- <td>{{ $user->nim }}</td> -->
-                                      <td>{{ $user->role->nama_role }}</td>
-                                      <td>{{ $user->role->periode }}</td>
-                                      <!-- <td>{{ $user->email }}</td> -->
-                                      <!-- <td>{{ $user->no_telp }}</td> -->
-                                  </tr>
-                              @endforeach
-                          </tbody>
+                      <h5 class="card-title">Kementrian</h5>
+                      <table class="table table-hover">
+                        <div id="columnChart"></div>
+                        <script>
+                          document.addEventListener("DOMContentLoaded", () => {
+                            new ApexCharts(document.querySelector("#columnChart"), {
+                              series: [{
+                                name: 'Verified',
+                                data: [2, 1, 1, 1]
+                              }, {
+                                name: 'Pending',
+                                data: [0, 0, 1, 0]
+                              }, {
+                                name: 'Revision',
+                                data: [1, 0, 0, 1]
+                              }],
+                              chart: {
+                                type: 'bar',
+                                height: 350
+                              },
+                              plotOptions: {
+                                bar: {
+                                  horizontal: false,
+                                  columnWidth: '55%',
+                                  endingShape: 'rounded'
+                                },
+                              },
+                              dataLabels: {
+                                enabled: false
+                              },
+                              stroke: {
+                                show: true,
+                                width: 2,
+                                colors: ['transparent']
+                              },
+                              xaxis: {
+                                categories: ['Research Development', 'Human Resource', 'Media and Creative', 'Public Relation'],
+                              },
+                              yaxis: {
+                                title: {
+                                  text: 'Total file'
+                                }
+                              },
+                              fill: {
+                                opacity: 1
+                              },
+                              tooltip: {
+                                y: {
+                                  formatter: function(val) {
+                                    return val + " file proker"
+                                  }
+                                }
+                              }
+                            }).render();
+                          });
+                        </script>
                       </table>
-                      <!-- End Table with stripped rows -->
-
                     </div>
                   </div>
-
                 </div>
 
-                <div class="column col-lg-4">
-                  <div>
+                <div class="col-lg-5">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title">User</h5>
+                      <div id="barChart"></div>
+                      <script>
+                        document.addEventListener("DOMContentLoaded", () => {
+                          // Data awal
+                          const originalData = [130, 0, 129, 0, 81, 80, 90];
 
-                    <div class="card">
-                      <div class="card-body">
-                        <h5 class="card-title">Departement Table</h5>
+                          // Menggabungkan data dengan kategori
+                          const combinedData = originalData.map((value, index) => ({
+                            value,
+                            category: ['Randy', 'Budi', 'Anton', 'Dewi', 'Andi', 'Fina', 'Niko', 'Lini'][index]
+                          }));
 
-                        <!-- Table with stripped rows -->
-                        <table class="table table-hover table-striped datatable">
-                            <thead>
-                                <tr>
-                                    <th scope="col">DeptId</th>
-                                    <th scope="col">Departement Name</th>
-                                    <th scope="col">Period</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($dept as $dept)
-                                    <tr>
-                                        <th scope="row">{{ $dept->id }}</th>
-                                        <td>{{ $dept->nama_kementrian }}</td>
-                                        <td>{{ $dept->periode }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        <!-- End Table with stripped rows -->
+                          // Mengurutkan data berdasarkan nilai dari besar ke kecil
+                          const sortedData = combinedData.sort((a, b) => b.value - a.value);
 
-                      </div>
+                          // Mendapatkan kategori dan data setelah diurutkan
+                          const categories = sortedData.map(item => item.category);
+                          const sortedValues = sortedData.map(item => item.value);
+
+                          // Membuat grafik dengan data yang telah diurutkan
+                          new ApexCharts(document.querySelector("#barChart"), {
+                            series: [{
+                              data: sortedValues
+                            }],
+                            chart: {
+                              type: 'bar',
+                              height: 350
+                            },
+                            plotOptions: {
+                              bar: {
+                                borderRadius: 4,
+                                horizontal: true,
+                              }
+                            },
+                            dataLabels: {
+                              enabled: false
+                            },
+                            xaxis: {
+                              categories: categories,
+                            }
+                          }).render();
+                        });
+                      </script>
                     </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="tab-pane fade" id="bordered-profile" role="tabpanel" aria-labelledby="profile-tab">
+              <div class="row">
+
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">Department Progress Table</h5>
+
+                    <!-- Table with stripped rows -->
+                    <table class="table table-hover table-striped datatable">
+                      <thead>
+                        <tr>
+                          <th>Bulan</th>
+                          <th>Tahun</th>
+                          <th>Nama Kementrian</th>
+                          <th>Nama Proker</th>
+                          <th>Nama File</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @foreach($dataProgressKementrian as $data)
+                        <tr>
+                          <td>{{ $data->bulan }}</td>
+                          <td>{{ $data->tahun }}</td>
+                          <td>{{ $data->nama_kementrian }}</td>
+                          <td>{{ $data->nama_proker }}</td>
+                          <td>{{ $data->nama_file }}</td>
+                          <td>{{ $data->status }}</td>
+                        </tr>
+                        @endforeach
+                      </tbody>
+                    </table>
+                    <!-- End Table with stripped rows -->
+
+                  </div>
+
+                  <br></br>
+
+                  <div class="card-body">
+                    <h5 class="card-title">Staff Contribution Table</h5>
+
+                    <!-- Table with stripped rows -->
+                    <table class="table table-hover table-striped datatable">
+                      <thead>
+                        <tr>
+                          <th>Bulan</th>
+                          <th>Tahun</th>
+                          <th>Nama Proker</th>
+                          <th>Nama File</th>
+                          <th>Status</th>
+                          <th>Nama User</th>
+                          <th>Kementrian User</th>
+                          <th>Nilai Kontribusi</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @foreach($dataKontribusiUser as $data)
+                        <tr>
+                          <td>{{ $data->bulan }}</td>
+                          <td>{{ $data->tahun }}</td>
+                          <td>{{ $data->nama_proker }}</td>
+                          <td>{{ $data->nama_file }}</td>
+                          <td>{{ $data->status }}</td>
+                          <td>{{ $data->nama_user }}</td>
+                          <td>{{ $data->kementrian_user }}</td>
+                          <td>{{ $data->nilai_kontribusi }}</td>
+                        </tr>
+                        @endforeach
+                      </tbody>
+                    </table>
+                    <!-- End Table with stripped rows -->
 
                   </div>
                 </div>
