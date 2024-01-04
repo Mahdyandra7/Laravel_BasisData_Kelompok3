@@ -168,7 +168,7 @@
               <div class="row">
                 <div class="col-lg-12">
                   <select class="form-select" id="monthSelect" name="monthSelect" aria-label="Default select example" onchange="selectMonth(this.value)">
-                    <option selected disabled value>Select Month</option>
+                    <option selected disabled value="0">Select Month</option>
                     <option value="0">All</option>
                     <option value="1">January</option>
                     <option value="2">February</option>
@@ -181,7 +181,7 @@
                     <option value="9">September</option>
                     <option value="10">October</option>
                     <option value="11">November</option>
-                    <option value="12">Desember</option>
+                    <option value="12">December</option>
                   </select>
                 </div>
 
@@ -205,13 +205,13 @@
                             new ApexCharts(document.querySelector("#columnChart"), {
                               series: [{
                                 name: 'Verified',
-                                data: [2, 1, 1, 1]
+                                data: {{ json_encode($VerifiedcountList) }}
                               }, {
                                 name: 'Pending',
-                                data: [0, 0, 1, 0]
+                                data: {{ json_encode($PendingcountList) }}
                               }, {
                                 name: 'Revision',
-                                data: [1, 0, 0, 1]
+                                data: {{ json_encode($RevisioncountList) }}
                               }],
                               chart: {
                                 type: 'bar',
@@ -308,6 +308,80 @@
                     </div>
                   </div>
                 </div>
+
+                <div class="col-lg-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title">Departement Monthly Progress</h5>
+
+                      <!-- Line Chart -->
+                      <div id="reportsChart"></div>
+
+                      <script>
+                        document.addEventListener("DOMContentLoaded", () => {
+                          new ApexCharts(document.querySelector("#reportsChart"), {
+                            series: [{
+                                name: 'Research and Development',
+                                data: {{ json_encode($RnDcountsList) }},
+                              },
+                              {
+                                name: 'Human Resource',
+                                data: {{ json_encode($HRcountsList) }}
+                              },
+                              {
+                                name: 'Media and Creative',
+                                data: {{ json_encode($MnCcountsList) }}
+                              },
+                              {
+                                name: 'Public Relation',
+                                data: {{ json_encode($PRcountsList) }}
+                              }
+                            ],
+                            chart: {
+                              height: 350,
+                              type: 'area',
+                              toolbar: {
+                                show: false
+                              },
+                            },
+                            markers: {
+                              size: 4
+                            },
+                            colors: ['#4154f1', '#2eca6a', '#ff771d', '#800080'],
+                            fill: {
+                              type: "gradient",
+                              gradient: {
+                                shadeIntensity: 1,
+                                opacityFrom: 0.3,
+                                opacityTo: 0.4,
+                                stops: [0, 90, 100]
+                              }
+                            },
+                            dataLabels: {
+                              enabled: false
+                            },
+                            stroke: {
+                              curve: 'smooth',
+                              width: 2
+                            },
+                            xaxis: {
+                              type: 'category',
+                              categories: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+                            },
+                            tooltip: {
+                              x: {
+                                format: 'dd/MM/yy HH:mm'
+                              },
+                            }
+                          }).render();
+                        });
+                      </script>
+                      <!-- End Line Chart -->
+
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </div>
 
